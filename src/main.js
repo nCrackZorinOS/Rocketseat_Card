@@ -21,8 +21,6 @@ function setCardType(type){
     ccLogo.setAttribute("src", `cc-${type}.svg`) // troca de img 
 }
 
-setCardType("default") // passando o parâmetro da função
-
 // security code
 
 const securitycode = window.document.querySelector('#security-code')
@@ -80,3 +78,53 @@ const cardNumberPattern = {
 }
 
 const cardNumberMasked = IMask(cardnumber, cardNumberPattern)
+
+const addButton = window.document.querySelector('#add-card')
+
+addButton.addEventListener('click', () => {
+    alert('Cartão Adicionado')
+})
+
+document.querySelector('form').addEventListener('submit', (event) => {
+    event.preventDefault()
+})
+
+const cardHolder = window.document.querySelector('#card-holder')
+cardHolder.addEventListener('input', () => {
+    const ccHolder = window.document.querySelector('.cc-holder > .value')
+
+    ccHolder.innerText = cardHolder.value.length === 0 ? "FULANO DA SILVA" : cardHolder.value
+
+})
+
+securityCodeMask .on('accept', () => {
+    updateSecurityCode(securityCodeMask.value);
+})
+
+function updateSecurityCode(code){
+    const ccSecurity = window.document.querySelector('.cc-security > .value')
+
+    ccSecurity.innerText = code.length === 0 ? '123' :  code
+}
+
+cardNumberMasked.on('accept', () => {
+    const cardType = cardNumberMasked.masked.currentMask.cardtype
+    setCardType(cardType) 
+    updateCardNumber(cardNumberMasked.value)
+})
+
+function updateCardNumber(number){
+    const ccNumber = window.document.querySelector('.cc-number')
+
+    ccNumber.innerText = number.length === 0 ? '1234 5678 9012 3456' : number
+}
+
+expirationDateMasked.on('accept', () => {
+ updateExpirationDate(expirationDateMasked.value)
+})
+
+function updateExpirationDate(date){
+    const ccExpiration = window.document.querySelector('.cc-extra .value')
+
+    ccExpiration.innerText = date.length === 0 ? '02/32' : date
+}
